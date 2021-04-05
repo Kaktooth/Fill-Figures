@@ -210,7 +210,7 @@ namespace WindowsFormsGraphics3
                 Brush b = new SolidBrush(BorderColor);
                 Bitmap bmp = new Bitmap(pictureBox2.Image);
                 int c = 0;
-                if (x > 0 && y > 0 && x < 189 && y < 189)
+                if (x > 0 && y > 0 && x < 300 && y < 300)
                 {
                     c = bmp.GetPixel(x, y).A;
                     if (c != Color.Black.A)
@@ -226,6 +226,7 @@ namespace WindowsFormsGraphics3
 
                     }
                 }
+                
             }
         }
         private void clear_Click(object sender, EventArgs e)
@@ -284,7 +285,7 @@ namespace WindowsFormsGraphics3
                     if (x1 > x2) { tmp = x1; x1 = x2; x2 = tmp; }
 
                 if (P.X > x1 && P.X < x2 && P.Y >A.Y&&P.Y<C.Y) { MessageBox.Show("Triangle in Point"); }
-                else { MessageBox.Show("Point out of triangle"); }
+                else { MessageBox.Show("Point not in a triangle"); }
          
                 
             }
