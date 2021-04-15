@@ -35,22 +35,24 @@ namespace WindowsFormsGraphics3
             using (var g = Graphics.FromImage(pictureBox1.Image))
             {
                 Brush b = Brushes.Black;
-                var arr1 = new int[2] { Convert.ToInt32(textBox2.Text), Convert.ToInt32(textBox1.Text) };
-                var arr2 = new int[2] { Convert.ToInt32(textBox4.Text), Convert.ToInt32(textBox3.Text) };
-                var arr3 = new int[2] { Convert.ToInt32(textBox6.Text), Convert.ToInt32(textBox5.Text) };
-                var arr = new int[3] { arr1[0], arr2[0], arr3[0] };
+                Point arr1 = new Point(Convert.ToInt32(textBox1.Text), Convert.ToInt32(textBox2.Text));
+                arr1.sort = "Y";
+                Point arr2 = new Point(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                arr2.sort = "Y";
+                Point arr3 = new Point(Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text));
+                arr3.sort = "Y";
+                Point[] arr = new Point[3] { arr1, arr2, arr3 };
 
                 Array.Sort(arr);
-                Vector2 A = new Vector2();
-
-                A.X = arr[0] == arr1[0] ? arr1[1] : arr[0] == arr2[0] ? arr2[1] : arr[0] == arr3[0] ? arr3[1] : 1;
-                A.Y = arr[0];
-                Vector2 B = new Vector2();
-                B.X = arr[1] == arr1[0] ? arr1[1] : arr[1] == arr2[0] ? arr2[1] : arr[1] == arr3[0] ? arr3[1] : 1;
-                B.Y = arr[1];
-                Vector2 C = new Vector2();
-                C.X = arr[2] == arr1[0] ? arr1[1] : arr[2] == arr2[0] ? arr2[1] : arr[2] == arr3[0] ? arr3[1] : 1;
-                C.Y = arr[2];
+                Point A = new Point();
+                A.X = arr[0].X;
+                A.Y = arr[0].Y;
+                Point B = new Point();
+                B.X = arr[1].X;
+                B.Y = arr[1].Y;
+                Point C = new Point();
+                C.X = arr[2].X;
+                C.Y = arr[2].Y;
                 PointF[] p = new PointF[3] { new PointF(A.X, A.Y), new PointF(B.X, B.Y), new PointF(C.X, C.Y) };
                 MessageBox.Show($"{A.X}, {A.Y}   {B.X}, {B.Y}    {C.X}, {C.Y}");
                 point = p;
@@ -172,10 +174,7 @@ namespace WindowsFormsGraphics3
                 Array.Sort(polygon);
                 var polygonX = new Point[4] { polygon[0], polygon[1], polygon[2], polygon[3] };
                 string str = "";
-                polygon[0].sort = "Y";
-                polygon[1].sort = "Y";
-                polygon[2].sort = "Y";
-                polygon[3].sort = "Y";
+              
 
                 Array.Sort(polygon);
                 var polygonY = polygon;
@@ -242,8 +241,11 @@ namespace WindowsFormsGraphics3
         {
             using (var g = Graphics.FromImage(pictureBox1.Image))
             {
-                MouseEventArgs me = (MouseEventArgs)e;
-                var P = me.Location;
+                //MouseEventArgs me = (MouseEventArgs)e;
+                //var P = me.Location;
+
+                Point P = new Point(Convert.ToInt32(textBox9.Text), Convert.ToInt32(textBox10.Text));
+
 
                 Brush b = Brushes.Black;
                 var arr1 = new int[2] { Convert.ToInt32(textBox2.Text), Convert.ToInt32(textBox1.Text) };
@@ -263,31 +265,31 @@ namespace WindowsFormsGraphics3
                 C.X = arr[2] == arr1[0] ? arr1[1] : arr[2] == arr2[0] ? arr2[1] : arr[2] == arr3[0] ? arr3[1] : 1;
                 C.Y = arr[2];
                 PointF[] p = new PointF[3] { new PointF(A.X, A.Y), new PointF(B.X, B.Y), new PointF(C.X, C.Y) };
-               
+
                 point = p;
 
                 float x1 = 0;
                 float x2 = 0;
                 float tmp = 0;
 
-               
-                    x1 = A.X + (P.Y - (int)A.Y) * (C.X - A.X) / (C.Y - A.Y);
-                    if (P.Y < B.Y)
-                    {
-                        x2 = A.X + (P.Y - (int)A.Y) * (B.X - A.X) / (B.Y - A.Y);
-                    }
-                    else
-                    {
-                        if (C.Y == B.Y) x2 = B.X;
-                        else x2 = B.X + (P.Y - B.Y) * (C.X - B.X) / (C.Y - B.Y);
-                    }
 
-                    if (x1 > x2) { tmp = x1; x1 = x2; x2 = tmp; }
+                x1 = A.X + (P.Y - (int)A.Y) * (C.X - A.X) / (C.Y - A.Y);
+                if (P.Y <= B.Y)
+                {
+                    x2 = A.X + (P.Y - (int)A.Y) * (B.X - A.X) / (B.Y - A.Y);
+                }
+                else
+                {
+                    if (C.Y == B.Y) x2 = B.X;
+                    else x2 = B.X + (P.Y - B.Y) * (C.X - B.X) / (C.Y - B.Y);
+                }
 
-                if (P.X > x1 && P.X < x2 && P.Y >A.Y&&P.Y<C.Y) { MessageBox.Show("Triangle in Point"); }
+                if (x1 > x2) { tmp = x1; x1 = x2; x2 = tmp; }
+
+                if (P.X >= x1 && P.X <= x2 && P.Y >= A.Y && P.Y <= C.Y) { MessageBox.Show("Triangle in Point"); }
                 else { MessageBox.Show("Point not in a triangle"); }
-         
-                
+
+
             }
         }
     }
